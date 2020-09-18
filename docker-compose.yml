@@ -1,5 +1,12 @@
 version: "3.0"
 services:
+    # Backend(Golang)
+    backend:
+        build: ./Backend
+        tty: true
+        volumes:
+        - ./Backend:/go/src/work
+
     # Database(MySQL)
     db:
         image: mysql:5.7
