@@ -4,6 +4,8 @@ services:
     backend:
         build: ./Backend
         tty: true
+        ports:
+            - "3000:3000"
         volumes:
         - ./Backend:/go/src/work
 
