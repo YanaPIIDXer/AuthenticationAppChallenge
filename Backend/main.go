@@ -6,7 +6,7 @@ import(
 	"log"
 	"encoding/json"
 
-	"work/auth"
+	"auth"
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
