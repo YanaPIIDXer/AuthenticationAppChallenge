@@ -5,18 +5,12 @@ import(
 	"net/http"
 	"log"
 	"encoding/json"
+
+	"work/auth"
 )
 
-// アカウント
-// TODO:別の所に移す。
-type Account struct {
-	Id int `json:"id"`
-	Email string `json:"email"`
-	Password string `json:"password"`
-}
-
 func index(w http.ResponseWriter, r *http.Request) {
-	var account Account
+	var account auth.Account
 	account.Id = 1
 	account.Email = "hoge@hoge"
 	account.Password = "PASSWORD"
