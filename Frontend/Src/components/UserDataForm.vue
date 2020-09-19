@@ -17,6 +17,7 @@ import axios from "axios";
 export default {
   props: {
     target: String,
+    onResult: Function,
     buttonText: {
       type: String,
       default: "Submit",
@@ -34,7 +35,7 @@ export default {
       if (!res || !res.data) {
         return;
       }
-      alert("ResultCode:" + res.data["result_code"]);
+      this.onResult(res.data);
     },
   },
 };
