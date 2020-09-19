@@ -1,8 +1,19 @@
 version: "3.0"
 services:
+    # Frontend(Vue + Nuxt)
+    frontend:
+        build:
+            context: ./Frontend
+        tty: true
+        ports:
+            - "80:80"
+        volumes:
+            - ./Frontend:/app
+
     # Backend(Golang)
     backend:
-        build: ./Backend
+        build:
+            context: ./Backend
         tty: true
         ports:
             - "3000:3000"
