@@ -12,8 +12,6 @@ RUN apk update && \
 COPY ./Src /app
 
 RUN npm install
-# axiosのインストールはこれじゃないと駄目っぽい。多分。
-RUN npm install --save axios
 
 ENV HOST 0.0.0.0
 EXPOSE 80
