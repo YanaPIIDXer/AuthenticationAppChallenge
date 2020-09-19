@@ -41,5 +41,12 @@ export default {
   server: {
     port: 80,
     host: '0.0.0.0'
+  },
+
+  // ホットリロードを有効化。
+  watchers: {
+    webpack: {
+      poll: true,
+    },
   }
 }
