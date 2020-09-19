@@ -18,7 +18,10 @@ export default {
   methods: {
     async login() {
       const res = await axios
-        .get("http://yanap.docker.com:3000/login")
+        .post("http://yanap.docker.com:3000/login", {
+          email: "hoge",
+          password: "fuga",
+        })
         .catch((err) => alert(err));
       if (!res || !res.data) {
         return;
