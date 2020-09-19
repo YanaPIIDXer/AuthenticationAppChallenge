@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"api/login/result_code"
-	"api/base"
+	"api/core"
 )
 
 // ログイン要求
@@ -55,6 +55,6 @@ func method(w http.ResponseWriter, r *http.Request) {
 }
 
 // APIオブジェクト生成
-func MakeAPIObject() api_base.APIObject {
-	return api_base.MakeAPIObject(method, true)
+func MakeAPIObject() api_core.APIObject {
+	return api_core.MakeAPIObject(method, true)
 }

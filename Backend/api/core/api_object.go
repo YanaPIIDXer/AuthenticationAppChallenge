@@ -1,4 +1,4 @@
-package api_base
+package api_core
 
 import (
 	"net/http"
