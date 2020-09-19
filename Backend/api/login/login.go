@@ -27,6 +27,9 @@ func API(w http.ResponseWriter, r *http.Request) {
 	body := make([]byte, length)
 	length, err = r.Body.Read(body)
 
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "")
+
 	var request LoginRequest
 	err = json.Unmarshal(body, &request)
 	if err != nil {
