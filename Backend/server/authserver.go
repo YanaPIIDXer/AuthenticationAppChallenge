@@ -10,7 +10,8 @@ import (
 
 func Start() {
 	fmt.Println("Start Auth Server...")
-	http.HandleFunc("/login", login_api.API)
+	var loginAPI = login_api.MakeAPIObject()
+	http.HandleFunc("/login", loginAPI.OnRecv)
 	err := http.ListenAndServe(":3000", nil)
     if err != nil {
 		fmt.Println("Failed...")

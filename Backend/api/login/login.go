@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"api/login/result_code"
+	"api/base"
 )
 
 // ログイン要求
@@ -22,17 +23,7 @@ type LoginResult struct {
 }
 
 // API実行
-func API(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.WriteHeader(http.StatusOK)
-
-	if r.Method != http.MethodPost {
-        w.WriteHeader(http.StatusMethodNotAllowed)
-        return
-	}
-
+func method(w http.ResponseWriter, r *http.Request) {
 	length, err := strconv.Atoi(r.Header.Get("Content-Length"))
 	body := make([]byte, length)
 	length, err = r.Body.Read(body)
@@ -61,4 +52,9 @@ func API(w http.ResponseWriter, r *http.Request) {
         return
     }
 	fmt.Fprintln(w, string(j1))
+}
+
+// APIオブジェクト生成
+func MakeAPIObject() api_base.APIObject {
+	return api_base.MakeAPIObject(method, true)
 }
