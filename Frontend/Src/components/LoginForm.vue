@@ -17,8 +17,13 @@ import axios from "axios";
 export default {
   methods: {
     async login() {
-      const res = await axios.get("http://yanap.docker.com");
-      alert(res.data);
+      const res = await axios
+        .get("http://yanap.docker.com:3000/login")
+        .catch((err) => alert(err));
+      if (!res || !res.data) {
+        return;
+      }
+      alert("ResultCode:" + res.data["result_code"]);
     },
   },
 };
