@@ -25,11 +25,13 @@ type LoginResult struct {
 func API(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.WriteHeader(http.StatusOK)
+
 	if r.Method != http.MethodPost {
         w.WriteHeader(http.StatusMethodNotAllowed)
         return
-    }
+	}
 
 	length, err := strconv.Atoi(r.Header.Get("Content-Length"))
 	body := make([]byte, length)
