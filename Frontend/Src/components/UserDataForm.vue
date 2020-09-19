@@ -18,6 +18,10 @@ export default {
   props: {
     target: String,
     onResult: Function,
+    onError: {
+      type: Function,
+      default: function (err) {},
+    },
     buttonText: {
       type: String,
       default: "Submit",
@@ -31,7 +35,7 @@ export default {
           email: this.email,
           password: this.password,
         })
-        .catch((err) => alert(err));
+        .catch((err) => this.onError(err));
       if (!res || !res.data) {
         return;
       }

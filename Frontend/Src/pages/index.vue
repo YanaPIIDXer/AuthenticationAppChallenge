@@ -3,6 +3,7 @@
     <UserDataForm
       target="http://yanap.docker.com:3000/login"
       :onResult="onSignIn"
+      :onError="onSiginInFailed"
       buttonText="Sign In"
     />
   </div>
@@ -18,6 +19,9 @@ export default {
   methods: {
     onSignIn(json) {
       alert("ResultCode:" + json["result_code"]);
+    },
+    onSignInFailed(err) {
+      alert("Sign in Failed. Error:" + err);
     },
   },
 };
