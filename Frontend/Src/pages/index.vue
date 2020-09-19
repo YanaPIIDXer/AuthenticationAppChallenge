@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <LoginForm />
+    <UserDataForm buttonText="Sign In" />
   </div>
 </template>
 
 <script>
-import LoginForm from "~/components/LoginForm.vue";
+import UserDataForm from "~/components/UserDataForm.vue";
 export default {
   components: {
-    LoginForm,
+    UserDataForm,
   },
 };
 </script>

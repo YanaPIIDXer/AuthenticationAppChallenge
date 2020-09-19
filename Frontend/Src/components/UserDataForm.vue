@@ -5,7 +5,7 @@
       <br />
       <input type="password" v-model="password" placeholder="Input your password." />
       <br />
-      <input type="button" v-on:click="login()" value="Login" />
+      <input type="button" v-on:click="login()" :value="buttonText" />
       <br />
     </form>
   </div>
@@ -15,6 +15,13 @@
 import axios from "axios";
 
 export default {
+  props: {
+    buttonText: {
+      type: String,
+      default: "Submit",
+    },
+  },
+
   methods: {
     async login() {
       const res = await axios
