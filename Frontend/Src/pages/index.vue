@@ -1,11 +1,16 @@
 <template>
   <div class="container">
+    <h1>Sign In</h1>
     <UserDataForm
       target="http://yanap.docker.com:3000/login"
       :onResult="onSignIn"
       :onError="onSignInFailed"
       buttonText="Sign In"
     />
+    <br />
+    <button>
+      <nuxt-link to="/signup" class="signup_button_link">Sign Up</nuxt-link>
+    </button>
   </div>
 </template>
 
@@ -41,4 +46,8 @@ export default {
 </script>
 
 <style>
+.signup_button_link {
+  text-decoration: none;
+  color: black;
+}
 </style>
