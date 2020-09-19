@@ -18,7 +18,20 @@ export default {
 
   methods: {
     onSignIn(json) {
-      alert("ResultCode:" + json["result_code"]);
+      var resultCode = json["result_code"];
+      if (resultCode !== 0) {
+        switch (resultCode) {
+          case 1:
+            alert("User is not register");
+            break;
+          case -1:
+            alert("Fatal Error.");
+            break;
+        }
+        return;
+      }
+
+      alert("Sign in Success!");
     },
     onSignInFailed(err) {
       alert("Sign in Failed. Error:" + err);
