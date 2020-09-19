@@ -3,7 +3,7 @@
     <UserDataForm
       target="http://yanap.docker.com:3000/login"
       :onResult="onSignIn"
-      :onError="onSiginInFailed"
+      :onError="onSignInFailed"
       buttonText="Sign In"
     />
   </div>

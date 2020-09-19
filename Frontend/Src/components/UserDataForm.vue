@@ -15,6 +15,12 @@
 import axios from "axios";
 
 export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
   props: {
     target: String,
     onResult: Function,
