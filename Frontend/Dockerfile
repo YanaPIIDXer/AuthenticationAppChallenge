@@ -9,9 +9,11 @@ RUN apk update && \
     npm install -g @vue/cli && \
     npm install -g nuxt
 
-COPY . /app
+COPY ./Src /app
 
 RUN npm install
 
 ENV HOST 0.0.0.0
-EXPOSE 3000
+EXPOSE 80
+
+CMD npm run dev
