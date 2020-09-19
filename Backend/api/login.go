@@ -10,10 +10,3 @@ type LoginRequest struct {
 type LoginResult struct {
 	ResultCode int `json:"result_code"`
 }
-
-// TODO:リザルトコード用のパッケージに移す。
-const (
-	LoginSuccess = 0
-	NotRegister = 1
-	Fatal = -1
-)
