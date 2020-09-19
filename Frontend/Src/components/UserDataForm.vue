@@ -5,6 +5,10 @@
       <br />
       <input type="password" v-model="password" placeholder="Input your password." />
       <br />
+      <div v-if="this.isEnableConfirmPassword()">
+        <input type="password" v-model="confirmPassword" placeholder="Confirm your password." />
+        <br />
+      </div>
       <input type="button" v-on:click="login()" :value="buttonText" />
       <br />
     </form>
@@ -19,6 +23,7 @@ export default {
     return {
       email: "",
       password: "",
+      confirmPassword: "",
     };
   },
   props: {
@@ -32,10 +37,25 @@ export default {
       type: String,
       default: "Submit",
     },
+    enableConfirmPassword: {
+      type: String,
+      default: "No",
+    },
   },
 
   methods: {
+    isEnableConfirmPassword() {
+      return this.enableConfirmPassword === "Yes";
+    },
     async login() {
+      if (
+        this.isEnableConfirmPassword() &&
+        this.password !== this.confirmPassword
+      ) {
+        alert("Confirm your password.");
+        return;
+      }
+
       const res = await axios
         .post(this.target, {
           email: this.email,

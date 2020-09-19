@@ -6,6 +6,7 @@
       :onResult="onSignUp"
       :onError="onSignUpFailed"
       buttonText="Sign Up"
+      enableConfirmPassword="Yes"
     />
     <br />
     <nuxt-link to="/">Back</nuxt-link>
