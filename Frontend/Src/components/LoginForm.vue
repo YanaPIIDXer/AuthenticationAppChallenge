@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form>
+    <form method="POST">
       <input type="text" name="email" placeholder="Input your email address." />
       <br />
       <input type="password" name="password" placeholder="Input your password." />
