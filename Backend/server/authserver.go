@@ -4,10 +4,20 @@ import (
 	"fmt"
 	"net/http"
 	"log"
+	"encoding/json"
+
+	"api"
 )
 
 func login(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, r.Body)
+	var result api.LoginResult
+	result.ResultCode = api.LoginSuccess
+    j1, err := json.Marshal(result)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+	fmt.Fprintln(w, string(j1))
 }
 
 func Start() {
