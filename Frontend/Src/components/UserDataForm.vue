@@ -16,6 +16,7 @@ import axios from "axios";
 
 export default {
   props: {
+    target: String,
     buttonText: {
       type: String,
       default: "Submit",
@@ -25,7 +26,7 @@ export default {
   methods: {
     async login() {
       const res = await axios
-        .post("http://yanap.docker.com:3000/login", {
+        .post(this.target, {
           email: this.email,
           password: this.password,
         })

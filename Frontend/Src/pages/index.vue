@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <UserDataForm buttonText="Sign In" />
+    <UserDataForm target="http://yanap.docker.com:3000/login" buttonText="Sign In" />
   </div>
 </template>
 
