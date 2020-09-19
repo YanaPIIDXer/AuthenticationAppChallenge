@@ -12,10 +12,13 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   methods: {
-    login: function (event) {
-      alert("Login");
+    async login() {
+      const res = await axios.get("http://yanap.docker.com");
+      alert(res.data);
     },
   },
 };
