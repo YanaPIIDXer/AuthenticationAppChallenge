@@ -5,7 +5,8 @@
       <br />
       <input type="password" name="password" placeholder="Input your password." />
       <br />
-      <input type="submit" value="Sign in" />
+      <input type="button" value="Sign in" />
+      <br />
     </form>
   </div>
 </template>
