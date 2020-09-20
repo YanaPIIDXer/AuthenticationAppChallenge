@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Sign Up</h1>
     <UserDataForm
-      target="http://yanap.docker.com:3000/signup"
+      target="http://yanap.docker.com:3000/register"
       :onResult="onSignUp"
       :onError="onSignUpFailed"
       buttonText="Sign Up"
@@ -21,7 +21,9 @@ export default {
   },
 
   methods: {
-    onSignUp(json) {},
+    onSignUp(json) {
+      alert("Sign Up");
+    },
     onSignUpFailed(err) {
       alert("Sign up Failed. Error:" + err);
     },
