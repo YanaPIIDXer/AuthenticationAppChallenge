@@ -22,6 +22,11 @@ export default {
 
   methods: {
     onSignUp(json) {
+      var resultCode = json["result_code"];
+      if (resultCode != 0) {
+        alert("Sign Up Failed. Error:" + json["error_message"]);
+        return;
+      }
       alert("Sign Up");
     },
     onSignUpFailed(err) {
