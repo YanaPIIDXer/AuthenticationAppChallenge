@@ -13,7 +13,7 @@ func RegisterBasicAuth(email string, password string) int {
 
 	var resultCode = result_code.RegisterSuccess
 	msqldrv.Access(func(db *sql.DB) {		
-		err := db.QueryRow("SELECT id FROM basic_auth where email=?", 1).Scan(&email)
+		_, err := db.Query("SELECT id FROM basic_auth where email=?", email)
 		if err == nil {
 			resultCode = result_code.UsedEmail
 		} else if err != sql.ErrNoRows {
