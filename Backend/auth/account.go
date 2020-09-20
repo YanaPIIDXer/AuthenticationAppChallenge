@@ -48,6 +48,7 @@ func RegisterBasicAuth(email string, password string) int {
 
 		tx, _ := db.Begin()
 		stmt, err := db.Prepare("INSERT INTO accounts VALUES()")
+		defer stmt.Close()
 		result, err := stmt.Exec()
 		if err != nil {
 			fmt.Println(err.Error())
