@@ -1,4 +1,4 @@
-package result_code
+package register_result_code
 
 const (
 	RegisterSuccess = 0

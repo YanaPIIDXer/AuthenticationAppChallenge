@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"api/core"
-	"api/register/result_code"
+	"api/register/register_result_code"
 	"auth"
 )
 
@@ -33,7 +33,7 @@ func method(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &request)
 	if err != nil {
 		var result RegisterResult
-		result.ResultCode = result_code.Fatal
+		result.ResultCode = register_result_code.Fatal
 		result.ErrorMessage = err.Error()
 		
 		j1, err := json.Marshal(result)
@@ -46,15 +46,15 @@ func method(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var result RegisterResult
-	result.ResultCode = result_code.RegisterSuccess
+	result.ResultCode = register_result_code.RegisterSuccess
 	var resultCode = auth.RegisterBasicAuth(request.Email, request.Password)
-	if resultCode != result_code.RegisterSuccess {
+	if resultCode != register_result_code.RegisterSuccess {
 		var message = "Fatal Error."
 		switch(resultCode) {
-			case result_code.EmptyParam:
+			case register_result_code.EmptyParam:
 				message = "Has empty parameter."
 				break
-			case result_code.UsedEmail:
+			case register_result_code.UsedEmail:
 				message = "This email is already used."
 				break
 		}

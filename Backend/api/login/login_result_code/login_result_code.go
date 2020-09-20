@@ -1,4 +1,4 @@
-package result_code
+package login_result_code
 
 const (
 	LoginSuccess = 0
