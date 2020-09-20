@@ -1,9 +1,7 @@
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
 CREATE TABLE `accounts` (
-  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `email` VARCHAR(64) NOT NULL,
-  `password` VARCHAR(32) NOT NULL
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT
 ) ENGINE = InnoDB;
 
 -- +goose Down
