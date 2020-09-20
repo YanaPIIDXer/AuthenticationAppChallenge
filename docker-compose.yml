@@ -18,7 +18,9 @@ services:
         ports:
             - "3000:3000"
         volumes:
-        - ./Backend:/go/src
+            - ./Backend:/go/src
+        depends_on:
+            - db
 
     # Database(MySQL)
     db:

@@ -3,6 +3,7 @@ package auth
 import (
 	"database/sql"
 	"fmt"
+    "golang.org/x/crypto/bcrypt"
 
 	"api/login/login_result_code"
 	"api/register/register_result_code"
@@ -13,8 +14,8 @@ import (
 func LoginWithBasicAuth(email string, password string) int {
 	var resultCode = login_result_code.LoginSuccess
 	err := msqldrv.Access(func(db *sql.DB) {
-		var id = -1
-		err := db.QueryRow("SELECT id FROM basic_auth where email=? and password=?", email, password).Scan(&id)
+		var hash = ""
+		err := db.QueryRow("SELECT password FROM basic_auth where email=?", email).Scan(&hash)
 		if err != nil {
 			if err == sql.ErrNoRows {
 				resultCode = login_result_code.NotRegister
@@ -22,6 +23,9 @@ func LoginWithBasicAuth(email string, password string) int {
 				fmt.Println(err.Error())
 				resultCode = login_result_code.Fatal
 			}
+		}
+		if bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)) != nil {
+			resultCode = login_result_code.NotRegister
 		}
 	})
 	if err != nil { return login_result_code.Fatal }
@@ -33,6 +37,7 @@ func LoginWithBasicAuth(email string, password string) int {
 func RegisterBasicAuth(email string, password string) int {
 	if email == "" || password == "" { return register_result_code.EmptyParam }
 
+	password = getPasswordHash(password)
 	var resultCode = register_result_code.RegisterSuccess
 	err := msqldrv.Access(func(db *sql.DB) {
 		var dummy = 0
@@ -74,4 +79,10 @@ func RegisterBasicAuth(email string, password string) int {
 	}
 	
 	return resultCode
+}
+
+// パスワードのハッシュ値を取得
+func getPasswordHash(plain string) string {
+	hash, _ := bcrypt.GenerateFromPassword([]byte(plain), bcrypt.DefaultCost)
+	return string(hash)
 }
