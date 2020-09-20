@@ -8,6 +8,7 @@ import (
 
 	"api/core"
 	"api/register/result_code"
+	"auth"
 )
 
 // 登録要求
@@ -46,13 +47,21 @@ func method(w http.ResponseWriter, r *http.Request) {
 
 	var result RegisterResult
 	result.ResultCode = result_code.RegisterSuccess
-	if request.Email == "" || request.Password == "" {
-		result.ResultCode = result_code.EmptyParam
-		result.ErrorMessage = "Has empty parameter."
-		sendResult(w, result);
-		return;
+	var resultCode = auth.RegisterBasicAuth(request.Email, request.Password)
+	if resultCode != result_code.RegisterSuccess {
+		var message = "Fatal Error."
+		switch(resultCode) {
+			case result_code.EmptyParam:
+				message = "Has empty parameter."
+				break
+			case result_code.UsedEmail:
+				message = "This email is already used."
+				break
+		}
+		result.ErrorMessage = message
 	}
 	
+	result.ResultCode = resultCode
 	sendResult(w, result);
 }
 
