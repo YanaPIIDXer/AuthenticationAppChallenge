@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 
 	"api/core"
+	"api/register/result_code"
 )
 
 // 登録要求
@@ -23,7 +24,7 @@ type RegisterResult struct {
 // API実行
 func method(w http.ResponseWriter, r *http.Request) {
 	var result RegisterResult
-	result.ResultCode = 0
+	result.ResultCode = result_code.RegisterSuccess
 	
     j1, err := json.Marshal(result)
     if err != nil {
