@@ -20,17 +20,8 @@ func GetAndUpdateToken(id int) (string, error) {
 	var token = ""
 	var accessError error = nil
 	err := msqldrv.Access(func(db *sql.DB) {
-		var period time.Time = time.Now()
-		var getRecord = func() (bool, error) {
-			err := db.QueryRow("SELECT token, period FROM token WHERE id=?", id).Scan(&token, &period)
-			if err != nil {
-				if err != sql.ErrNoRows { return false, err }
-			}
-			var bFound = (err != sql.ErrNoRows)
-			err = nil
-			return bFound, nil
-		}
-		bFoundRecord, err := getRecord()
+		var period time.Time
+		bFoundRecord, err := getRecord(db, id, &token, &period)
 		if err != nil {
 			accessError = err
 			return
@@ -42,9 +33,10 @@ func GetAndUpdateToken(id int) (string, error) {
 			accessError = TokenNotMade
 			return
 		}
+
 		if current.Before(period) {
 			// まだ生きているので生存期限のみ更新
-			var next = current.Add(1 * time.Minute)		// TODO:テスト用に１分にしている。テスト後は１２時間くらいにする。
+			var next = current.Add(12 * time.Hour)
 			accessError = db.QueryRow("UPDATE token SET period=? where id=?", next, id).Scan()
 			if accessError == sql.ErrNoRows { accessError = nil }
 			return
@@ -64,11 +56,34 @@ func MakeToken(id int) (string, error) {
 	if err != nil { return "", err }
 
 	var token = string(hash)
-	var period = time.Now().Add(1 * time.Minute)
 	err = msqldrv.Access(func(db *sql.DB) {
-		err := db.QueryRow("INSERT INTO token VALUES(?, ?, ?)", id, token, period).Scan()
+		var dummy = ""
+		var dummy2 time.Time
+		bFoundRecord, err := getRecord(db, id, &dummy, &dummy2)
+		if err != nil { return }
+
+		var period = time.Now().Add(12 * time.Hour)
+		if bFoundRecord {
+			// レコードは存在するのでUPDATE
+			err = db.QueryRow("UPDATE token SET token=?, period=? where id=?", token, period, id).Scan()
+			return
+		}
+
+		// レコードそのものがないのでINSERT
+		err = db.QueryRow("INSERT INTO token VALUES(?, ?, ?)", id, token, period).Scan()
 		if err == sql.ErrNoRows { err = nil }		// こいつはRowを返さない。
 	})
 	
 	return token, err
+}
+
+// レコード取得
+func getRecord(db *sql.DB, id int, token *string, period *time.Time) (bool, error) {
+	err := db.QueryRow("SELECT token, period FROM token WHERE id=?", id).Scan(token, period)
+	if err != nil {
+		if err != sql.ErrNoRows { return false, err }
+	}
+	var bFound = (err != sql.ErrNoRows)
+	err = nil
+	return bFound, nil
 }
