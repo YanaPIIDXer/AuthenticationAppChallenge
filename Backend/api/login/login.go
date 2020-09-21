@@ -46,7 +46,7 @@ func method(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	var result LoginResult
-	result.ResultCode = auth.LoginWithBasicAuth(request.Email, request.Password)
+	result.ResultCode, _ = auth.LoginWithBasicAuth(request.Email, request.Password)
     j1, err := json.Marshal(result)
     if err != nil {
         fmt.Println(err)

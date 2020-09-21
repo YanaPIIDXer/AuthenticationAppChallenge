@@ -11,11 +11,12 @@ import (
 )
 
 // 基本認証でログイン
-func LoginWithBasicAuth(email string, password string) int {
+func LoginWithBasicAuth(email string, password string) (int, int) {
 	var resultCode = login_result_code.LoginSuccess
+	var id = -1
 	err := msqldrv.Access(func(db *sql.DB) {
 		var hash = ""
-		err := db.QueryRow("SELECT password FROM basic_auth where email=?", email).Scan(&hash)
+		err := db.QueryRow("SELECT id, password FROM basic_auth where email=?", email).Scan(&id, &hash)
 		if err != nil {
 			if err == sql.ErrNoRows {
 				resultCode = login_result_code.NotRegister
@@ -28,9 +29,9 @@ func LoginWithBasicAuth(email string, password string) int {
 			resultCode = login_result_code.NotRegister
 		}
 	})
-	if err != nil { return login_result_code.Fatal }
+	if err != nil { return login_result_code.Fatal, id }
 	
-	return resultCode
+	return resultCode, id
 }
 
 // 基本認証登録
