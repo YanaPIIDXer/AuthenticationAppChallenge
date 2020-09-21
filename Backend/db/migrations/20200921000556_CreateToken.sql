@@ -4,7 +4,7 @@
 CREATE TABLE `token` (
     `id` INT NOT NULL,
     `token` VARCHAR(64) CHARACTER SET BINARY NOT NULL,
-    `period` DATETIME NOT NULL,
+    `period` DATETIME NOT NULL
 ) ENGINE=InnoDB;
 
 -- +goose Down

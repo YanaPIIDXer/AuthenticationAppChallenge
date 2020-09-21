@@ -16,7 +16,7 @@ func LoginWithBasicAuth(email string, password string) (int, int) {
 	var id = -1
 	err := msqldrv.Access(func(db *sql.DB) {
 		var hash = ""
-		err := db.QueryRow("SELECT id, password FROM basic_auth where email=?", email).Scan(&id, &hash)
+		err := db.QueryRow("SELECT id, password FROM basic_auth WHERE email=?", email).Scan(&id, &hash)
 		if err != nil {
 			if err == sql.ErrNoRows {
 				resultCode = login_result_code.NotRegister
@@ -42,7 +42,7 @@ func RegisterBasicAuth(email string, password string) int {
 	var resultCode = register_result_code.RegisterSuccess
 	err := msqldrv.Access(func(db *sql.DB) {
 		var dummy = 0
-		err := db.QueryRow("SELECT id FROM basic_auth where email=?", email).Scan(&dummy)
+		err := db.QueryRow("SELECT id FROM basic_auth WHERE email=?", email).Scan(&dummy)
 		if err == nil {
 			resultCode = register_result_code.UsedEmail
 			return

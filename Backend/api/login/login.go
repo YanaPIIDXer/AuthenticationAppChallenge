@@ -21,6 +21,7 @@ type LoginRequest struct {
 type LoginResult struct {
 	ResultCode int `json:"result_code"`
 	ErrorMessage string `json:"error_message"`
+	Token string `json:"token"`
 }
 
 // API実行
@@ -46,7 +47,22 @@ func method(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	var result LoginResult
-	result.ResultCode, _ = auth.LoginWithBasicAuth(request.Email, request.Password)
+	var id = 0
+	result.ResultCode, id = auth.LoginWithBasicAuth(request.Email, request.Password)
+	if result.ResultCode == login_result_code.LoginSuccess {
+		// トークンも取ってくる。
+		token, err := auth.GetAndUpdateToken(id)
+		if err == auth.TokenNotMade || err == auth.TokenIsPeriod {
+			token, err = auth.MakeToken(id)
+		}
+		if err != nil {
+			fmt.Println(err.Error())
+			result.ResultCode = login_result_code.Fatal
+		} else {
+			result.Token = token
+		}
+	}
+	
     j1, err := json.Marshal(result)
     if err != nil {
         fmt.Println(err)

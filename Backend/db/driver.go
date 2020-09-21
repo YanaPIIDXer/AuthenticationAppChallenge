@@ -7,7 +7,7 @@ import (
 
 // DBアクセス
 func Access(callback func(db *sql.DB)) error {
-	db, err := sql.Open("mysql", "root:root@tcp(db)/auth_app")
+	db, err := sql.Open("mysql", "root:root@tcp(db)/auth_app?parseTime=true")
 	if err != nil { return err }
 	defer db.Close()
 
