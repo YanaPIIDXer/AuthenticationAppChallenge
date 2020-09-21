@@ -36,7 +36,7 @@ export default {
         return;
       }
 
-      alert("Sign in Success!");
+      alert("Sign in Success! Token:" + json["token"]);
     },
     onSignInFailed(err) {
       alert("Sign in Failed. Error:" + err);
