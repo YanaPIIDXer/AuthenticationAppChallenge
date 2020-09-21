@@ -11,6 +11,10 @@
     <button>
       <nuxt-link to="/signup" class="signup_button_link">Sign Up</nuxt-link>
     </button>
+    <br />
+
+    <nuxt-link to="/mypage">マイページへ（デバッグ用）</nuxt-link>
+    <br />
   </div>
 </template>
 
@@ -37,6 +41,7 @@ export default {
       }
 
       alert("Sign in Success! Token:" + json["token"]);
+      this.$cookie.Set("auth_token", json["token"]);
     },
     onSignInFailed(err) {
       alert("Sign in Failed. Error:" + err);
