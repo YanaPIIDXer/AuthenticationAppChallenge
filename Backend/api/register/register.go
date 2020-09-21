@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"api/core"
-	"api/register/register_result_code"
-	"auth"
+	"authapp/api/core"
+	"authapp/api/register/register_result_code"
+	"authapp/auth"
 )
 
 // 登録要求

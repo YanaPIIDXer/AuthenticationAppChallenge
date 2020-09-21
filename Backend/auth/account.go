@@ -5,9 +5,9 @@ import (
 	"fmt"
     "golang.org/x/crypto/bcrypt"
 
-	"api/login/login_result_code"
-	"api/register/register_result_code"
-	"db"
+	"authapp/api/login/login_result_code"
+	"authapp/api/register/register_result_code"
+	"authapp/db"
 )
 
 // 基本認証でログイン

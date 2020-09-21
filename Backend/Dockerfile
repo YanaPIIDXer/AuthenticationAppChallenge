@@ -1,11 +1,12 @@
 FROM golang:latest
 
-RUN go get github.com/oxequa/realize
-RUN go get bitbucket.org/liamstask/goose/cmd/goose
-RUN go get github.com/go-sql-driver/mysql
-RUN go get golang.org/x/crypto/bcrypt
+RUN go get -u \
+    github.com/oxequa/realize \
+    bitbucket.org/liamstask/goose/cmd/goose \
+    github.com/go-sql-driver/mysql \
+    golang.org/x/crypto/bcrypt
 
-WORKDIR /go/src
-ADD . /go/src
+WORKDIR /go/src/authapp
+ADD . /go/src/authapp
 
 CMD realize start

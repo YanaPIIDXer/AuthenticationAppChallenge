@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"api/login/login_result_code"
-	"api/core"
-	"auth"
+	"authapp/api/login/login_result_code"
+	"authapp/api/core"
+	"authapp/auth"
 )
 
 // ログイン要求

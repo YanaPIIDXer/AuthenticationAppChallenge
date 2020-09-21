@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"log"
 
-	"api/login"
-	"api/register"
+	"authapp/api/login"
+	"authapp/api/register"
 )
 
 func Start() {
