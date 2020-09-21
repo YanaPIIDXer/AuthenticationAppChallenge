@@ -41,7 +41,6 @@ export default {
       }
 
       alert("Sign in Success! Token:" + json["token"]);
-      this.$cookie.Set("auth_token", json["token"]);
     },
     onSignInFailed(err) {
       alert("Sign in Failed. Error:" + err);
