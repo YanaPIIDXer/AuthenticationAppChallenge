@@ -4,12 +4,16 @@ import (
 	"fmt"
 	"net/http"
 	"log"
+	"math/rand"
+	"time"
 
 	"authapp/api/login"
 	"authapp/api/register"
 )
 
 func Start() {
+	rand.Seed(time.Now().UnixNano())
+
 	fmt.Println("Start Auth Server...")
 	var loginAPI = login_api.MakeAPIObject()
 	http.HandleFunc("/login", loginAPI.OnRecv)
