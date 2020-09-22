@@ -21,7 +21,7 @@ type LoginRequest struct {
 type LoginResult struct {
 	ResultCode int `json:"result_code"`
 	ErrorMessage string `json:"error_message"`
-	Token string `json:"token"`
+	Token auth.Token `json:"token"`
 }
 
 // API実行

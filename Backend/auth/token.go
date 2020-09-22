@@ -15,13 +15,20 @@ var (
 	TokenIsPeriod = errors.New("Token is period.")
 )
 
+// トークン
+type Token struct {
+	// 値
+	Value string `json:"value"`
+	// 期限
+	Period time.Time `json:"period"`
+}
+
 // トークンを取得して期限を更新
-func GetAndUpdateToken(id int) (string, error) {
-	var token = ""
+func GetAndUpdateToken(id int) (Token, error) {
+	var token Token
 	var accessError error = nil
 	err := msqldrv.Access(func(db *sql.DB) {
-		var period time.Time
-		bFoundRecord, err := getRecord(db, id, &token, &period)
+		bFoundRecord, err := getRecord(db, id, &token.Value, &token.Period)
 		if err != nil {
 			accessError = err
 			return
@@ -34,43 +41,46 @@ func GetAndUpdateToken(id int) (string, error) {
 			return
 		}
 
-		if current.Before(period) {
+		if current.Before(token.Period) {
 			// まだ生きているので生存期限のみ更新
 			var next = current.Add(12 * time.Hour)
 			accessError = db.QueryRow("UPDATE token SET period=? where id=?", next, id).Scan()
 			if accessError == sql.ErrNoRows { accessError = nil }
+			token.Period = next
 			return
 		}
 		
 		// 寿命
 		accessError = TokenIsPeriod
 	})
-	if err != nil { return "", err }
+	if err != nil { return token, err }
 
 	return token, accessError
 }
 
 // トークン生成
-func MakeToken(id int) (string, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(string(rand.Int())), bcrypt.DefaultCost)
-	if err != nil { return "", err }
+func MakeToken(id int) (Token, error) {
+	var token Token
 
-	var token = string(hash)
+	hash, err := bcrypt.GenerateFromPassword([]byte(string(rand.Int())), bcrypt.DefaultCost)
+	if err != nil { return token, err }
+
+	token.Value = string(hash)
 	err = msqldrv.Access(func(db *sql.DB) {
 		var dummy = ""
 		var dummy2 time.Time
 		bFoundRecord, err := getRecord(db, id, &dummy, &dummy2)
 		if err != nil { return }
 
-		var period = time.Now().Add(12 * time.Hour)
+		token.Period = time.Now().Add(12 * time.Hour)
 		if bFoundRecord {
 			// レコードは存在するのでUPDATE
-			err = db.QueryRow("UPDATE token SET token=?, period=? where id=?", token, period, id).Scan()
+			err = db.QueryRow("UPDATE token SET token=?, period=? where id=?", token.Value, token.Period, id).Scan()
 			return
 		}
 
 		// レコードそのものがないのでINSERT
-		err = db.QueryRow("INSERT INTO token VALUES(?, ?, ?)", id, token, period).Scan()
+		err = db.QueryRow("INSERT INTO token VALUES(?, ?, ?)", id, token.Value, token.Period).Scan()
 		if err == sql.ErrNoRows { err = nil }		// こいつはRowを返さない。
 	})
 	
